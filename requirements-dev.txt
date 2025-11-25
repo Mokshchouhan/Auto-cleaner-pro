@@ -1,0 +1,6 @@
+﻿pytest>=7.0
+black>=24.0
+ruff>=0.14
+isort>=5.12
+jupyterlab>=4.0
+ipykernel

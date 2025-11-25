@@ -1,0 +1,7 @@
+﻿pandas>=2.0.0
+pydantic>=1.10
+typer>=0.9
+python-dateutil>=2.8
+chardet>=5.0
+pyarrow>=11.0
+# pyarrow is optional — only install it if you want faster CSV/Parquet I/O

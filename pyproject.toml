@@ -1,0 +1,11 @@
+﻿[project]
+name = "auto-cleaner-pro"
+version = "0.0.1"
+description = "A general-purpose CSV cleaning pipeline"
+authors = [{ name = "Aizen", email = "mokshchouhan399@gamil.com" }]
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88

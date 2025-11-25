@@ -1,0 +1,5 @@
+  Name , AGE (Years), joined_at , Active?
+Alice , 30 , 2020-01-05 , yes
+Bob,25,01/06/2021,No
+Charlie, , March 3 2022,TRUE
+Daisy, 42, , false

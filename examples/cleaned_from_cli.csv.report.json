@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "encoding": "ascii",
+    "delimiter": ",",
+    "header_detected": false,
+    "header_promoted": true,
+    "shape": [
+      4,
+      4
+    ]
+  },
+  "report": {
+    "columns_before": [
+      "Name",
+      "AGE (Years)",
+      "joined_at",
+      "Active?"
+    ],
+    "columns_after": [
+      "name",
+      "age_years",
+      "joined_at",
+      "active"
+    ],
+    "shape_before": [
+      4,
+      4
+    ],
+    "shape_after": [
+      4,
+      4
+    ],
+    "dtypes": {
+      "name": "object",
+      "age_years": "float64",
+      "joined_at": "datetime64[ns]",
+      "active": "boolean"
+    }
+  }
+}
