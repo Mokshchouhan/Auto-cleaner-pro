@@ -1,0 +1,5 @@
+name,age_years,joined_at,active
+Alice ,30.0,2020-01-05,True
+Bob,25.0,2021-01-06,False
+Charlie,,2022-03-03,True
+Daisy,42.0,,False
