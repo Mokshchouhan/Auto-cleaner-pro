@@ -2,20 +2,16 @@
 import csv
 import re
 from typing import Tuple, Dict, Any, Optional, List
-
 import chardet
 import pandas as pd
 from dateutil import parser as dateutil_parser
 
 
 def detect_encoding(path: str, n_bytes: int = 65536) -> str:
-    """Read the first 
-    _bytes of a file and use chardet to guess encoding."""
     with open(path, "rb") as f:
         raw = f.read(n_bytes)
     guess = chardet.detect(raw)
     return guess.get("encoding", "utf-8")
-
 
 def detect_delimiter(sample_text: str, fallback: str = ",") -> str:
     
@@ -33,9 +29,7 @@ def detect_delimiter(sample_text: str, fallback: str = ",") -> str:
     except Exception:
         return fallback
 
-
 def _has_header(sample_text: str) -> bool:
-    """Heuristic: ask csv.Sniffer if a header exists (may be wrong on small samples)."""
     try:
         return csv.Sniffer().has_header(sample_text)
     except Exception:
@@ -43,13 +37,11 @@ def _has_header(sample_text: str) -> bool:
 
 
 def _looks_like_header_row(series: pd.Series) -> bool:
-    """Simple heuristic: return True when the row values contain many alphabetic tokens (likely header)."""
     count_letters = sum(1 for v in series.astype(str).str.strip() if re.search(r"[A-Za-z]", v))
     count_nonempty = sum(1 for v in series.astype(str).str.strip() if v != "")
     if count_nonempty == 0:
         return False
     return count_letters >= max(1, count_nonempty // 2)
-
 
 def load_csv_auto(path: str, sample_bytes: int = 65536, **read_csv_kwargs) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     # Load any CSV file with automatic detection.
@@ -99,7 +91,6 @@ def load_csv_auto(path: str, sample_bytes: int = 65536, **read_csv_kwargs) -> Tu
     }
     return df, meta
 
-
 def clean_column_name(name: str) -> str:   
     if name is None:
         return "column"
@@ -115,10 +106,7 @@ def clean_column_name(name: str) -> str:
         return "column"
     return s
 
-
-
 def clean_column_names(df: pd.DataFrame) -> pd.DataFrame:
-    """Apply clean_column_name to all columns and ensure uniqueness by appending counters."""
     new_cols: List[str] = []
     seen: Dict[str, int] = {}
     for orig in df.columns:
@@ -133,9 +121,7 @@ def clean_column_names(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = new_cols
     return df
 
-
 def _try_formats(series: pd.Series, formats: List[str]) -> Optional[pd.Series]:
-    """Try each format in Formats using pandas.to_datetime(format=...) and return the best Series if one format converts a decent fraction."""
     best_series = None
     best_score = 0.0
     nonempty = series.dropna().astype(str).str.strip()
@@ -149,20 +135,16 @@ def _try_formats(series: pd.Series, formats: List[str]) -> Optional[pd.Series]:
             score = success / total
             if score > best_score:
                 best_score = score
-                # reindex to full original series index, inserting NaT for missing values
                 full_parsed = pd.Series([pd.NaT] * len(series), index=series.index, dtype="datetime64[ns]")
                 full_parsed[nonempty.index] = parsed
                 best_series = full_parsed
         except Exception:
             continue
-    # accept if at least half parsed
     if best_score >= 0.5:
         return best_series
     return None
 
-
 def _try_dateutil(series: pd.Series) -> Optional[pd.Series]:
-   # Try parsing with dateutil.parser.parse using dayfirst heuristics and pick the best option.
     nonempty = series.dropna().astype(str).str.strip()
     total = len(nonempty)
     if total == 0:
@@ -191,16 +173,11 @@ def _try_dateutil(series: pd.Series) -> Optional[pd.Series]:
         return best_series
     return None
 
-
 def try_cast_datetime(series: pd.Series, date_formats: Optional[List[str]] = None) -> pd.Series:
-    # Attempt to parse datetimes with optional user formats and dateutil fallback.
-    # 1) user-provided formats
     if date_formats:
         fmt_series = _try_formats(series, date_formats)
         if fmt_series is not None:
             return fmt_series
-
-    # 2) try pandas generic parsing
     try:
         parsed = pd.to_datetime(series, errors="coerce")
         non_null = parsed.notna().sum()
@@ -209,22 +186,12 @@ def try_cast_datetime(series: pd.Series, date_formats: Optional[List[str]] = Non
             return parsed
     except Exception:
         pass
-
-    # 3) dateutil fallback (try dayfirst heuristics)
     du = _try_dateutil(series)
     if du is not None:
         return du
-
-    # 4) give up and return original
     return series
 
-
-# ---------------------------
-# Numeric and boolean casting (unchanged)
-# ---------------------------
-
 def try_cast_numeric(series: pd.Series) -> pd.Series:
-    #Attempt to convert to numeric where it makes sense; otherwise return original series.
     converted = pd.to_numeric(series, errors="coerce")
     non_null = converted.notna().sum()
     total = len(series.dropna())
@@ -234,9 +201,7 @@ def try_cast_numeric(series: pd.Series) -> pd.Series:
         return converted
     return series
 
-
 def try_cast_bool(series: pd.Series) -> pd.Series:
-    #Try to interpret common boolean-like strings (true/false, yes/no, 0/1)
     low = series.dropna().astype(str).str.strip().str.lower()
     if low.empty:
         return series
@@ -252,9 +217,7 @@ def try_cast_bool(series: pd.Series) -> pd.Series:
         return out.astype("boolean")
     return series
 
-
 def infer_and_cast_dtypes(df: pd.DataFrame, sample_frac: float = 1.0, config: Optional[Dict[str, Any]] = None) -> pd.DataFrame:
-    #For each column, attempt boolean -> numeric -> datetime casting using heuristics.
     df = df.copy()
     if 0 < sample_frac < 1.0:
         sample = df.sample(frac=sample_frac, random_state=0)
@@ -268,19 +231,14 @@ def infer_and_cast_dtypes(df: pd.DataFrame, sample_frac: float = 1.0, config: Op
     for col in df.columns:
         try:
             series = df[col]
-            # boolean
             b = try_cast_bool(sample[col])
             if not b.equals(sample[col]):
                 df[col] = try_cast_bool(series)
                 continue
-
-            # numeric
             num = try_cast_numeric(sample[col])
             if not num.equals(sample[col]):
                 df[col] = try_cast_numeric(series)
                 continue
-
-            # datetime (now honors config)
             dt = try_cast_datetime(sample[col], date_formats=date_formats)
             if not dt.equals(sample[col]):
                 df[col] = try_cast_datetime(series, date_formats=date_formats)
@@ -289,10 +247,7 @@ def infer_and_cast_dtypes(df: pd.DataFrame, sample_frac: float = 1.0, config: Op
             continue
     return df
 
-
 def clean_dataframe(df: pd.DataFrame, config: Optional[Dict[str, Any]] = None) -> Tuple[pd.DataFrame, Dict[str, Any]]:
-    # Run a sequence of cleaning steps and produce a simple report.
-
     report: Dict[str, Any] = {}
     before_cols = list(df.columns)
     before_shape = df.shape
