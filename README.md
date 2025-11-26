@@ -1,5 +1,13 @@
 # auto-cleaner-pro
 
+<p align="left">
+  <img src="https://img.shields.io/badge/python-3.11+-blue.svg" />
+  <img src="https://img.shields.io/github/license/Mokshchouhan/Auto-cleaner-pro" />
+  <img src="https://img.shields.io/github/repo-size/Mokshchouhan/Auto-cleaner-pro" />
+  <img src="https://img.shields.io/github/stars/Mokshchouhan/Auto-cleaner-pro?style=social" />
+</p>
+
+
 **auto-cleaner-pro** — a general-purpose, robust, reusable CSV cleaning pipeline that works with *any* CSV file.  
 This project provides a safe default pipeline to detect CSV format, normalize column names, infer and cast data types, and produce a human + machine readable report.
 
