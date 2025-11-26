@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/github/license/Mokshchouhan/Auto-cleaner-pro" />
   <img src="https://img.shields.io/github/repo-size/Mokshchouhan/Auto-cleaner-pro" />
   <img src="https://img.shields.io/github/stars/Mokshchouhan/Auto-cleaner-pro?style=social" />
+  <img src="https://github.com/Mokshchouhan/Auto-cleaner-pro/actions/workflows/ci.yml/badge.svg" alt="CI" />
 </p>
 
 
