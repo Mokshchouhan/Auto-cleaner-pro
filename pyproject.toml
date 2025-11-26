@@ -1,8 +1,15 @@
-﻿[project]
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "auto-cleaner-pro"
 version = "0.0.1"
 description = "A general-purpose CSV cleaning pipeline"
 authors = [{ name = "Aizen", email = "mokshchouhan399@gamil.com" }]
+
+[project.scripts]
+acp = "auto_cleaner_pro.pipeline:app"
 
 [tool.black]
 line-length = 88
