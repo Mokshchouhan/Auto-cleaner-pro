@@ -14,7 +14,7 @@ This project provides a safe default pipeline to detect CSV format, normalize co
 
 ---
 
-## 🚀 Features
+## Features
 - Automatic **encoding detection** (chardet)
 - Automatic **delimiter detection** (csv.Sniffer)
 - **Header detection & promotion** (turns first row into header if needed)
@@ -67,7 +67,7 @@ You can now run:
 
 acp --help
 
-🧼 CLI Usage
+## CLI Usage
 Basic usage
 acp input.csv output.csv
 
@@ -80,7 +80,7 @@ acp input.csv output.csv --dry-run
 Report only
 acp input.csv output.csv --report-only
 
-📝 Example
+## Example
 
 Input file: examples/test_messy.csv
 
@@ -104,7 +104,7 @@ Alice	30	2020-01-05	True
 Bob	25	2021-01-06	False
 Charlie	NaN	2022-03-03	True
 Daisy	42	NaT	False
-📘 Python API Usage (in code or notebooks)
+##  Python API Usage (in code or notebooks)
 from auto_cleaner_pro.cleaning import load_csv_auto, clean_dataframe
 
 df, meta = load_csv_auto("examples/test_messy.csv")
@@ -134,19 +134,19 @@ auto-cleaner-pro/
 ├── pyproject.toml        # package metadata + entry point
 ├── requirements.txt
 ├── README.md
+│
+├── UI/
+    ├── app.py          # The Streamlit UI application
+    └── README.md
+     
 
-🧪 Testing
+## Testing
 
 Run all tests:
 
 pytest -q
 
-🤝 Contributing
-
-Pull requests are welcome.
-For major changes, please open an issue first to discuss.
-▶️ Running the UI
-
+## Running the UI
 From the project root, run:
 
 streamlit run ui/app.py
@@ -162,10 +162,6 @@ Display a link in the terminal (if browser doesn't open)
 
 🖼️ App Overview
 Home Screen
-
-(Add screenshot here if you want)
-
-st.title("Auto Cleaner Pro — CSV Cleaner")
 
 Upload CSV
 
@@ -220,13 +216,10 @@ streamlit run ui/app.py
 
 Add new pages inside ui/pages/ — Streamlit will auto-discover them.
 
-📁 Folder Structure
-ui/
-│
-├── app.py          # The Streamlit UI application
-└── README.md       # This file
+🤝 Contributing 
 
-🤝 Contributing UI improvements
+Pull requests are welcome.
+For major changes, please open an issue first to discuss.
 
 Ideas welcome! Useful additions might include:
 
@@ -249,6 +242,5 @@ Open a pull request or issue on GitHub if you'd like to contribute.
 The Streamlit interface makes Auto Cleaner Pro accessible to anyone — no terminal or Python knowledge required.
 
 streamlit run ui/app.py
-
 
 Happy cleaning!
