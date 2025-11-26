@@ -8,6 +8,8 @@
   <img src="https://github.com/Mokshchouhan/Auto-cleaner-pro/actions/workflows/ci.yml/badge.svg" alt="CI" />
 </p>
 
+![Visitors](https://visitor-badge.laobi.icu/badge?page_id=Mokshchouhan.Auto-cleaner-pro)
+
 
 **auto-cleaner-pro** — a general-purpose, robust, reusable CSV cleaning pipeline that works with *any* CSV file.  
 This project provides a safe default pipeline to detect CSV format, normalize column names, infer and cast data types, and produce a human + machine readable report.
