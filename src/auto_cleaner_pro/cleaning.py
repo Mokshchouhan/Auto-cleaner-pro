@@ -100,19 +100,21 @@ def load_csv_auto(path: str, sample_bytes: int = 65536, **read_csv_kwargs) -> Tu
     return df, meta
 
 
-def clean_column_name(name: str) -> str:
-    # Normalize a single column name into a safe identifier
+def clean_column_name(name: str) -> str:   
     if name is None:
         return "column"
     s = str(name).strip()
     s = s.lower()
-    s = re.sub(r"[^0-9a-zA-Z\\.]+", "_", s)
-    s = re.sub(r"^([0-9]+)", r"_\\1", s)
+    s = re.sub(r"[^0-9a-zA-Z\.]+", "_", s)
     s = re.sub(r"_+", "_", s)
-    s = s.strip("_")
+    s = s.rstrip("_")
+    if re.match(r"^[0-9]", s):
+        s = "_" + s
+    s = s.strip()
     if s == "":
         return "column"
     return s
+
 
 
 def clean_column_names(df: pd.DataFrame) -> pd.DataFrame:
