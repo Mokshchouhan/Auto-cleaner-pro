@@ -3,15 +3,12 @@ import json
 import logging
 from pathlib import Path
 from typing import Optional, Dict, Any
-
 import typer
 import pandas as pd
-
 from .cleaning import load_csv_auto, clean_dataframe
 
 app = typer.Typer(add_completion=False)
 logger = logging.getLogger(__name__)
-
 
 def _load_config(path: Optional[Path]) -> Optional[Dict[str, Any]]:
     if path is None:
@@ -22,7 +19,6 @@ def _load_config(path: Optional[Path]) -> Optional[Dict[str, Any]]:
     except Exception as e:
         raise typer.Exit(f"Failed to read config file {path}: {e}")
 
-
 @app.command()
 def run(
     input_path: Path = typer.Argument(..., help="Input CSV file"),
@@ -31,8 +27,6 @@ def run(
     dry_run: bool = typer.Option(False, "--dry-run", help="Do not write output files"),
     report_only: bool = typer.Option(False, "--report-only", help="Write only JSON report"),
 ):
-    """Run the auto-cleaner pipeline."""
-
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     logger.info(f"Loading: {input_path}")
 
