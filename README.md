@@ -145,3 +145,110 @@ pytest -q
 
 Pull requests are welcome.
 For major changes, please open an issue first to discuss.
+▶️ Running the UI
+
+From the project root, run:
+
+streamlit run ui/app.py
+
+
+This will:
+
+Start a local web server
+
+Open the UI in your browser automatically
+
+Display a link in the terminal (if browser doesn't open)
+
+🖼️ App Overview
+Home Screen
+
+(Add screenshot here if you want)
+
+st.title("Auto Cleaner Pro — CSV Cleaner")
+
+Upload CSV
+
+Drag and drop a CSV file
+
+Or enable "Use example CSV" in the sidebar
+
+Clean Button
+
+Runs your full cleaning pipeline:
+
+Load
+
+Detect
+
+Clean
+
+Infer
+
+Report
+
+Before / After Comparison
+
+Left side: raw CSV
+Right side: cleaned CSV
+
+Missingness Heatmap
+
+Visualizes which columns have NaNs or empty cells.
+
+Download Buttons
+
+Cleaned CSV
+
+JSON report (includes metadata + cleaning details)
+
+🛠️ Developer Notes
+Source file:
+ui/app.py
+
+
+The app injects the project’s src/ folder into sys.path so it can import:
+
+from auto_cleaner_pro.cleaning import load_csv_auto, clean_dataframe
+
+Adding more pages
+
+You can extend the UI using Streamlit’s multipage apps:
+
+streamlit run ui/app.py
+
+
+Add new pages inside ui/pages/ — Streamlit will auto-discover them.
+
+📁 Folder Structure
+ui/
+│
+├── app.py          # The Streamlit UI application
+└── README.md       # This file
+
+🤝 Contributing UI improvements
+
+Ideas welcome! Useful additions might include:
+
+Batch folder cleaning
+
+Schema validation
+
+Column profiler
+
+Charts from the cleaned data
+
+Custom date format selection
+
+Light/dark theme toggle
+
+Open a pull request or issue on GitHub if you'd like to contribute.
+
+🎉 Enjoy the UI!
+
+The Streamlit interface makes Auto Cleaner Pro accessible to anyone — no terminal or Python knowledge required.
+
+streamlit run ui/app.py
+
+
+Happy cleaning!
