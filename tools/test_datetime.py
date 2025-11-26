@@ -5,11 +5,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path.cwd() / 'src'))
 from auto_cleaner_pro.cleaning import load_csv_auto, clean_dataframe
-
 p = Path('examples/test_dates_mixed.csv')
 p.parent.mkdir(parents=True, exist_ok=True)
-
-# WRITE the file with real newlines (one row per line) — use '\n' so Python writes actual newlines
 lines = [
     'date_col',
     '2020-01-05',
@@ -17,9 +14,7 @@ lines = [
     'March 3 2022',
     '06/07/23',
 ]
-# Note: using '\n' (single backslash) in the Python source creates real newline characters in the file.
 p.write_text('\n'.join(lines) + '\n', encoding='utf-8')
-
 print('--- RUN without config ---')
 df, meta = load_csv_auto(str(p))
 print('META:', meta)
@@ -29,7 +24,6 @@ print(cleaned.to_string(index=False))
 
 print('\n--- RUN with config (explicit formats) ---')
 config = { 'date_formats': ['%Y-%m-%d', '%d/%m/%Y', '%B %d %Y', '%d/%m/%y'] }
-# re-load to reset
 df2, meta2 = load_csv_auto(str(p))
 cleaned2, report2 = clean_dataframe(df2, config=config)
 print('META:', meta2)
